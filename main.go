@@ -77,6 +77,8 @@ func main() {
 			close(deleteUrlChan)
 			break
 		}
+		log.Printf("Sleeping for %d hours.", *loopDelay)
+		time.Sleep(time.Duration(*loopDelay) * time.Hour)
 	}
 	wg.Wait()
 }
