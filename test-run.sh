@@ -2,9 +2,6 @@
 
 export BUILD_BASE_IMAGE='temp-image-ht-del-106'
 
-if [ -z "${HTTP_DELETER_URLS}" ]; then
-   HTTP_DELETER_URLS='[ "http://foo.example.com/prefix.index_aa-%Y.%m.%d", "http://bar.example.com/prefix.index_bb-%Y.%m.%d" ]'
-fi
 
 docker run -it --rm -v "$(pwd)/:/mnt/" "golang:1.12-stretch" find /mnt -type f -not -path '*/.git/*' -name '*.go' -exec gofmt -w {} \;
 if [ $? -ne 0 ]; then
