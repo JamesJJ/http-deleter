@@ -12,7 +12,7 @@ fi
 docker images -q "${BUILD_BASE_IMAGE}:cached" | grep -c '[[:alnum:]]' >/dev/null
 
 if [ $? -ne 0 ]; then
-  docker build --target=build_image -t "${BUILD_BASE_IMAGE}:cached" .
+  docker build --no-cache --target=build_image -t "${BUILD_BASE_IMAGE}:cached" .
   if [ $? -ne 0 ]; then
     exit 1
   fi
@@ -20,7 +20,12 @@ fi
 
 docker build -t "${BUILD_BASE_IMAGE}:app_build" --build-arg BUILD_BASE_IMAGE="${BUILD_BASE_IMAGE}:cached" . \
 && echo '= = = = =' \
-&& docker run -it --rm -e "HTTP_DELETER_URLS=${HTTP_DELETER_URLS}" "${BUILD_BASE_IMAGE}:app_build"
+&& docker run -it --rm \
+  -e "PODREADY_VERBOSE=true" \
+  ` # -e "KUBERNETES_SERVICE_HOST=true"` \
+  -e "HTTP_DELETER_LOOPDELAY=1" \
+  -e "HTTP_DELETER_URLS=${HTTP_DELETER_URLS}" \
+  "${BUILD_BASE_IMAGE}:app_build"
 
 
 

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/jamesjj/podready"
 	"github.com/jamiealquiza/envy"
 	"github.com/jehiah/go-strftime"
 	"io/ioutil"
@@ -22,7 +23,6 @@ var (
 	backCount        = flag.Int("backcount", 30, "Iterate back in time <backcount> times")
 	backStep         = flag.Int("backstep", 24, "Each <backcount> iteration goes back in time <backstep> hours")
 	concurrent       = flag.Int("concurrent", 2, "Number of HTTP requests to send in parallel")
-	startupDelay     = flag.Int("startupdelay", 0, "Seconds to wait before doing anything (used to facilitate easier testing)")
 	httpReqTimeout   = flag.Int("httptimeout", 30, "HTTP request timeout in seconds")
 	dryRun           = flag.Bool("dryrun", false, "Show parsed target list without sending HTTP Delete request")
 	wg               sync.WaitGroup
@@ -42,7 +42,7 @@ func main() {
 	envy.Parse("HTTP_DELETER")
 	flag.Parse()
 
-	time.Sleep(time.Duration(*startupDelay) * time.Second)
+	podready.Wait()
 
 	deleteUrlChan := make(chan *string)
 
