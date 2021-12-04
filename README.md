@@ -1,8 +1,5 @@
 # HTTP Deleter
 
-[![Docker Automated build](https://img.shields.io/docker/cloud/automated/jamesjj/http-deleter)](https://hub.docker.com/r/jamesjj/http-deleter/)
-[![Docker Automated build](https://img.shields.io/docker/cloud/build/jamesjj/http-deleter)](https://hub.docker.com/r/jamesjj/http-deleter/)
-
 *Sends HTTP DELETE requests to a list of URLs*
 
 Each URL is parsed with STRFTIME, so can include placeholders for date or time e.g. `http://elasticsearch.example.com:9200/my_index-%Y.%m.%d`
